@@ -111,5 +111,5 @@ echo '<key>' >> ${CLIENT}.ovpn
 cat pki/private/${CLIENT}.key >> ${CLIENT}.ovpn 
 echo '</key>' >> ${CLIENT}.ovpn
 
-echo "ifconfig-push 10.10.0.50 255.255.0.0" > /etc/openvpn/ccd/${CLIENT}
+echo "ifconfig-push 10.10.0.50 255.255.255.0" > /etc/openvpn/ccd/${CLIENT}
 ```
