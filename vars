@@ -1,0 +1,10 @@
+
+set_var EASYRSA_REQ_COUNTRY  "VI"
+set_var EASYRSA_REQ_PROVINCE  "HN"
+set_var EASYRSA_REQ_CITY  "HN"
+set_var EASYRSA_REQ_ORG  "TEST"
+set_var EASYRSA_REQ_EMAIL  "admin@test.net"
+set_var EASYRSA_REQ_OU  "TEST"
+set_var EASYRSA_CA_EXPIRE  36500
+set_var EASYRSA_CERT_EXPIRE  36500
+set_var EASYRSA_REQ_CN  "TEST"
