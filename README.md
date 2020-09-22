@@ -1,33 +1,13 @@
-
-```
+## Install packages
+```bash
 apt install openvpn easy-rsa
-make-cadir ~/openvpn-ca
-cd ~/openvpn-ca
 ```
-
-```
-cat << EOF >> vars
-set_var EASYRSA_REQ_COUNTRY  "VI"
-set_var EASYRSA_REQ_PROVINCE  "HN"
-set_var EASYRSA_REQ_CITY  "HN"
-set_var EASYRSA_REQ_ORG  "TEST"
-set_var EASYRSA_REQ_EMAIL  "admin@test.net"
-set_var EASYRSA_REQ_OU  "TEST"
-set_var EASYRSA_CA_EXPIRE  36500
-set_var EASYRSA_CERT_EXPIRE  36500
-set_var EASYRSA_REQ_CN  "TEST"
-EOF
-
-```
-
-```
+## Make server configurations
+```bash
 ./easyrsa init-pki
 ./easyrsa build-ca
 ./easyrsa gen-dh
 ./easyrsa gen-crl
-```
-
-```
 ./easyrsa gen-req vpn-server nopass
 ./easyrsa sign-req server vpn-server
 openssl verify -CAfile pki/ca.crt pki/issued/vpn-server.crt
@@ -50,9 +30,6 @@ dh /etc/openvpn/server/dh.pem
 
 server 10.10.0.0 255.255.255.0
 ifconfig-pool-persist /etc/openvpn/server/ipp.txt
-#push "redirect-gateway def1"
-#push "dhcp-option DNS 84.200.69.80"
-#push "dhcp-option DNS 84.200.70.40"
 cipher AES-256-CBC
 tls-version-min 1.2
 tls-cipher TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256
@@ -78,10 +55,31 @@ EOF
 mkdir -p /etc/openvpn/server/ccd
 systemctl start openvpn-server@server
 systemctl enable openvpn-server@server
-
 ```
 
-```
+## Make client configurations
+```bash
 ./build_client.sh ${client-name}
+```
+### Configure static ip for client
+```bash
 echo "ifconfig-push 10.10.0.50 255.255.255.0" > /etc/openvpn/ccd/${client-name}
+```
+
+## Create project from scratch
+
+```bash
+make-cadir ~/vpn-server
+cd ~/vpn-server
+cat << EOF >> vars
+set_var EASYRSA_REQ_COUNTRY  "VI"
+set_var EASYRSA_REQ_PROVINCE  "HN"
+set_var EASYRSA_REQ_CITY  "HN"
+set_var EASYRSA_REQ_ORG  "TEST"
+set_var EASYRSA_REQ_EMAIL  "admin@test.net"
+set_var EASYRSA_REQ_OU  "TEST"
+set_var EASYRSA_CA_EXPIRE  36500
+set_var EASYRSA_CERT_EXPIRE  36500
+set_var EASYRSA_REQ_CN  "TEST"
+EOF
 ```
