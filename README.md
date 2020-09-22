@@ -24,6 +24,7 @@ EOF
 ./easyrsa init-pki
 ./easyrsa build-ca
 ./easyrsa gen-dh
+./easyrsa gen-crl
 ```
 
 ```
